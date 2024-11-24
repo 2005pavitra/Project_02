@@ -7,6 +7,7 @@ const PORT = 8080;
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname,"public")))
 
 main()
 .then(() =>{
@@ -20,20 +21,12 @@ async function main(){
    await mongoose.connect("mongodb://127.0.0.1:27017/project02")
 }
 
-const chat1 = new Chat({
-    from:"pp",
-    to:"dt",
-    msg:"hi",
-    created_at:new Date()
-})
 
-chat1.save()
-.then((res) =>{
-    console.log(res)
-})
+app.get("/chats", async(req,res)=>{
+    let chats = await Chat.find();
+    console.log(chats);
+    res.render("index.ejs", {chats});
 
-app.get("/", (req,res)=>{
-    res.send("Working fine")
 })
 
 app.listen(PORT, () =>{
