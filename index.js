@@ -72,6 +72,17 @@ app.put("/chats/:id", async(req,res) =>{
         res.redirect("/chats")
 })
 
+//delete route
+app.delete("/chats/:id", async(req,res) =>{
+    let {id} = req.params;
+    const deletedChats = await Chat.findByIdAndDelete(id);
+
+    console.log(deletedChats)
+    res.redirect("/chats");
+
+    
+})
+
 app.listen(PORT, () =>{
     console.log(`Server is listening on PORT ${PORT}`);
 })
